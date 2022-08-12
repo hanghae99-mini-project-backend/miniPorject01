@@ -21,4 +21,18 @@ User.create = async (newUser, result) => {
   });
 };
 
+User.checkDuplicatedId = async (id, result) => {
+  const esc_id = sql.escape(id);
+  const sqlQuery = `SELECT COUNT(id) AS CNT FROM USER WHERE id = ${esc_id}`;
+  await sql.query(sqlQuery, (error, res) => {
+    if (error) {
+      return result(error, null);
+    }
+    console.log("models/user : ",res[0].CNT);
+    return result(null, res[0].CNT);
+  });
+};
+
+
+
 module.exports = User;
