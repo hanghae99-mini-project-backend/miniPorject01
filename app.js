@@ -1,4 +1,5 @@
 require("dotenv").config();
+require("express-async-errors");
 const express = require("express");
 const app = express();
 const { sql } = require("mysql");
@@ -9,11 +10,12 @@ const cors = require("cors");
 const hpp = require("hpp");
 
 const { errorHandlerMiddleware } = require("./middleware/errorHandler");
+app.use(express.json());
 
-app.use(hpp());
+// app.use(hpp());
 app.use(cors());
 app.use(morgan("dev"));
-app.use(express.json());
+
 app.use(cookieParser());
 app.use("/api", route);
 app.use(errorHandlerMiddleware);
