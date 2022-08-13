@@ -11,7 +11,7 @@ class Post {
     this.describe = post.describe;
   }
 
-  static async getAll(result) {
+  async getAll(newPost, result) {
     const sqlQuery = "SELECT * FROM BOOTCAMP_INFO";
     await sql.query(sqlQuery, function (err, data) {
       if (err) {
