@@ -65,7 +65,6 @@ exports.login = (req, res) => {
     res.cookie(process.env.COOKIE_NAME, `Bearer ${token}`, {
       expires: expires,
     });
-
     res.status(StatusCodes.OK).json({ token });
   });
 };
