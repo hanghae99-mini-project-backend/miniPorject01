@@ -19,6 +19,11 @@ exports.mainPage = (req, res) => {
   });
 };
 
+
+exports.createPostPage = (req, res) => {
+  res.send("Hello world");
+}
+
 // bootcamp 소개글 생성
 exports.createPost = (req, res) => {
   const {
