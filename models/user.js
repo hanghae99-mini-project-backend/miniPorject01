@@ -5,8 +5,8 @@ const sqlQuery = require("../query/user");
 //constructor
 const User = function (user) {
   this.id = user.id.replace(/(\s*)/g, "");
-  this.name = user.name;
-  this.password = user.password;
+  this.name = user.name.replace(/(\s*)/g, "");
+  this.password = user.password.replace(/(\s*)/g, "");
 };
 
 User.create = async (newUser, result) => {
