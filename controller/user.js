@@ -1,7 +1,6 @@
 const User = require("../models/user");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../errors");
-const { sql } = require("../dbconfig/config");
 
 exports.signupPage = (req, res) => {
   res.send("Hello world");
@@ -14,6 +13,11 @@ exports.signup = (req, res) => {
   if (!id || !name || !password || !confirmPassword) {
     throw new BadRequestError("회원가입 오류입니다. 다시 입력해주세요.");
   }
+
+  if (name.length > 7) {
+    throw new BadRequestError("성함을 7글자 이하로 입력해주세요.");
+  }
+
   if (!reg.test(password)) {
     throw new BadRequestError("비밀번호 형식이 틀렸습니다.");
   }
@@ -39,5 +43,29 @@ exports.signup = (req, res) => {
       }
       res.status(StatusCodes.CREATED).json({ data });
     });
+  });
+};
+exports.loginPage = (req, res) => {
+  res.send("Login page");
+};
+exports.login = (req, res) => {
+  const { id, password } = req.body;
+  if (!id || !password) {
+    throw new BadRequestError("아이디 또는 비밀번호를 입력해주세요.");
+  }
+
+  const login = new User({ id, password });
+  User.loginAccess(login, (error, data) => {
+    if (error) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ msg: "아이디 또는 비밀번호를 확인해주세요." });
+    }
+    const token = User.createJWT(login);
+    res.cookie(process.env.COOKIE_NAME, `Bearer ${token}`, {
+      expires: expires,
+    });
+
+    res.status(StatusCodes.OK).json({ token });
   });
 };
