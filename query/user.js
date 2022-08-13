@@ -1,19 +1,19 @@
 exports.insUser = `INSERT INTO USER SET ?`;
 exports.checkDuplicated = (id) => {
   return `SELECT 
-            COUNT(id) AS CNT 
+            COUNT(ID) AS CNT 
           FROM 
             USER 
           WHERE 
-            id = ${id}`;
+            ID = ${id}`;
 };
 exports.loginQuery = (id) => {
   return `SELECT 
             USER_IDX,
             ID,
             PASSWORD 
-        FROM 
+          FROM 
             USER 
-        WHERE
+          WHERE
             ID = ${id}`;
 };

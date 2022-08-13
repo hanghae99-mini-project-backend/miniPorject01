@@ -29,7 +29,7 @@ exports.signup = (req, res) => {
 
   User.checkDuplicatedId(user.id, (error, data) => {
     if (data > 0) {
-      return res.status(400).json({ message: "아이디가 중복됩니다." });
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: "아이디가 중복됩니다." });
     } else if (error) {
       return res.status(500).json({ message: error.message });
     }
