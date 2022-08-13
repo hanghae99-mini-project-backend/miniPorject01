@@ -1,11 +1,13 @@
 const { sql } = require("../dbconfig/config");
 const bcrypt = require("bcryptjs");
 const sqlQuery = require("../query/user");
+const userService = require("../service/user.service");
+const jwt = require("jsonwebtoken");
 
 //constructor
 const User = function (user) {
   this.id = user.id.replace(/(\s*)/g, "");
-  this.name = user.name.replace(/(\s*)/g, "");
+  this.name = user.name;
   this.password = user.password.replace(/(\s*)/g, "");
 };
 
@@ -31,5 +33,26 @@ User.checkDuplicatedId = async (newUser, result) => {
     return result(null, res[0].CNT);
   });
 };
-
+User.loginAccess = async (newUser, result) => {
+  const esc_id = sql.escape(newUser.id);
+  await sql.query(sqlQuery.loginQuery(esc_id), (error, res) => {
+    if (res.length <= 0) {
+      return result({ msg: "NO_DATE" });
+    } else {
+      userService
+        .checkPassword(newUser.password, res[0].PASSWORD)
+        .then((data) => {
+          if (!data) {
+            return result({ msg: "INCORRECT" });
+          }
+          return result(null, data);
+        });
+    }
+  });
+};
+User.createJWT = (newUser) => {
+  return jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
+  });
+};
 module.exports = User;
