@@ -1,14 +1,24 @@
-const sql = require("../dbconfig/dbconfig");
+const { sql } = require("../dbconfig/config");
 
 class Post {
-  constructor(post) {
-    this.bootcampName = post.bootcampName;
-    this.bootCampCompany = post.bootcampCompany;
-    this.totalWeeks = post.totalWeeks;
-    this.onoffLine = post.onoffLine;
-    this.price = post.price;
-    this.position = post.position;
-    this.describe = post.describe;
+  constructor(
+    user_idx,
+    bootcampName,
+    bootcampCompany,
+    totalWeeks,
+    onoffLine,
+    price,
+    position,
+    describe
+  ) {
+    this.user_idx = user_idx;
+    this.bootcamp_name = bootcampName;
+    this.bootcamp_company = bootcampCompany;
+    this.total_weeks = totalWeeks;
+    this.on_off_line = onoffLine;
+    this.price = price;
+    this.position = position;
+    this.describe = describe;
   }
 
   static async getAll(result) {
@@ -22,7 +32,8 @@ class Post {
   }
 
   async createPost(newPost, result) {
-    const sqlQuery = "INSERT INTO BOOTCAMP_INFO SET ?";
+    console.log(newPost);
+    const sqlQuery = "INSERT INTO BOOTCAMP_INFO SET ? ";
     await sql.query(sqlQuery, newPost, function (err, data) {
       if (err) {
         return result(err, null);
@@ -31,3 +42,5 @@ class Post {
     });
   }
 }
+
+module.exports = Post;

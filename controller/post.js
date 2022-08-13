@@ -1,4 +1,4 @@
-const Post = require("../models/user");
+const Post = require("../models/post");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../errors");
 
@@ -19,14 +19,14 @@ exports.mainPage = (req, res) => {
   });
 };
 
-
 exports.createPostPage = (req, res) => {
   res.send("Hello world");
-}
+};
 
 // bootcamp 소개글 생성
 exports.createPost = (req, res) => {
   const {
+    user_idx,
     bootcampName,
     bootcampCompany,
     totalWeeks,
@@ -45,21 +45,23 @@ exports.createPost = (req, res) => {
     !position ||
     !describe
   ) {
-    res
+    return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: "데이터 형식에 맞지 않습니다." });
   }
-  const post = new Post({
+  console.log(bootcampName, describe);
+  const post = new Post(
+    user_idx,
     bootcampName,
     bootcampCompany,
     totalWeeks,
     onoffLine,
     price,
     position,
-    describe,
-  });
-
-  post.createPost((err, data) => {
+    describe
+  );
+  console.log(post.position);
+  post.createPost(post, (err, data) => {
     if (err) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: err.message,

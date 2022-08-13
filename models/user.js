@@ -12,6 +12,7 @@ const User = function (user) {
 User.create = async (newUser, result) => {
   const salt = await bcrypt.genSalt(10);
   newUser.password = await bcrypt.hash(newUser.password, salt);
+  console.log(newUser);
   await sql.query(sqlQuery.insUser, newUser, (error, res) => {
     if (error) {
       return result(error, null);
