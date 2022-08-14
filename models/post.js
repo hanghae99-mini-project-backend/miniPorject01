@@ -1,29 +1,9 @@
 const { sql } = require("../dbconfig/config");
+const sqlQuery = require("../query/post");
 
 class Post {
-  constructor(
-    user_idx,
-    bootcampName,
-    bootcampCompany,
-    totalWeeks,
-    onoffLine,
-    price,
-    position,
-    describe
-  ) {
-    this.user_idx = user_idx;
-    this.bootcamp_name = bootcampName;
-    this.bootcamp_company = bootcampCompany;
-    this.total_weeks = totalWeeks;
-    this.on_off_line = onoffLine;
-    this.price = price;
-    this.position = position;
-    this.describe = describe;
-  }
-
-  async getAll(newPost, result) {
-    const sqlQuery = "SELECT * FROM BOOTCAMP_INFO";
-    await sql.query(sqlQuery, function (err, data) {
+  async getAll(result) {
+    await sql.query(sqlQuery.getAllPostQuery, (err, data) => {
       if (err) {
         return result(err, null);
       }
@@ -32,11 +12,49 @@ class Post {
   }
 
   async createPost(newPost, result) {
-    console.log(newPost);
-    const sqlQuery = "INSERT INTO BOOTCAMP_INFO SET ? ";
-    await sql.query(sqlQuery, newPost, function (err, data) {
+    await sql.query(sqlQuery.createPostQuery, newPost, (err, data) => {
       if (err) {
         return result(err, null);
+      }
+      result(null, data);
+    });
+  }
+
+  async getOne(postId, result){
+    await sql.query(sqlQuery.getOnePostQuery, postId, (err, data) => {
+      if(err){
+        return result(err, null);
+      }
+      result(null, data);
+    });
+  }
+
+  async checkMyPost(postId, user_idx, result){
+    await sql.query(sqlQuery.checkMyPostQuery, [postId, user_idx], (err, data) => {
+      if(err) {
+        console.log("에러가 나옴 : ", err);
+        return result(err, null);
+      }
+      console.log("checkMyPost data : ", data);
+      return result(null, data[0].CNT);
+    });
+  }
+
+  async putPost(postId, modifiedPost, result){
+    const modifiedPostArr=Object.entries(modifiedPost).map((element)=>element[[1]]);
+    await sql.query(sqlQuery.putPostQuery(postId), modifiedPostArr, (err, data) =>{
+      if (err) {
+        return result(err, null);
+      }
+      result(null, data);
+    });   
+  }
+
+
+  async deletePost(postId, user_idx, result){
+    await sql.query(sqlQuery.deletePostQuery, [postId, user_idx], (err, data) => {
+      if(err){
+        return result(err,null);
       }
       result(null, data);
     });
