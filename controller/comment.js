@@ -6,15 +6,16 @@ const comment = new Comment();
 
 exports.createComment = (req, res) => {
     const postId = req.params.postId;
+    const userIdx = req.locals.user.USER_IDX;
     const newComment = {
-      bootcamp_idx : postId,
-      user_idx: req.body.user_idx,
+      userIdx: userIdx,
+      bootcampIdx : postId,
       content: req.body.content,
       rating: req.body.rating,
     };
   
     if (
-      !newComment.user_idx ||
+      !newComment.userIdx ||
       !newComment.content ||
       !newComment.rating
     ) {

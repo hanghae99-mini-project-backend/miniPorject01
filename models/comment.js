@@ -3,7 +3,8 @@ const sqlQuery = require("../query/comment");
 
 class Comment {
   async createComment(newComment, result) {
-    await sql.query(sqlQuery.createCommentQuery, newComment, (err, data) => {
+    const newCommentArr = Object.entries(newComment).map((element)=>element[1]);
+    await sql.query(sqlQuery.createCommentQuery, newCommentArr, (err, data) => {
       if (err) {
         return result(err, null);
       }

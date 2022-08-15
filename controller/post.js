@@ -29,10 +29,19 @@ exports.createPostPage = (req, res) => {
 
 // bootcamp 소개글 생성
 exports.createPost = (req, res) => {
-  const newPost = req.body;
+  const newPost = {
+    userIdx: res.locals.user.USER_IDX,
+    bootcampName: req.body.bootcampName,
+    bootcampCompany: req.body.bootcampCompany,
+    totalWeeks: req.body.totalWeeks,
+    onoffLine: req.body.onoffLine,
+    price: req.body.price,
+    position: req.body.position,
+    describe: req.body.describe,
+  };
 
   if (
-    !newPost.user_idx ||
+    !newPost.userIdx ||
     !newPost.bootcampName ||
     !newPost.bootcampCompany ||
     !newPost.totalWeeks ||
@@ -87,24 +96,24 @@ exports.detailPost = (req, res) => {
 
 
 // bootcamp 소개글 수정
-// user_idx는 기능 구현 후 수정
 exports.putPost = (req, res) => {
   const postId = req.params.postId;
-  const user_idx= req.body.user_idx;
+  const userIdx= res.locals.user.USER_IDX;
+  //const modifiedPost = req.body;
   const modifiedPost = {
-    bootcamp_name: req.body.bootcampName,
-    bootcamp_company: req.body.bootcampCompany,
-    total_weeks: req.body.totalWeeks,
-    on_off_line: req.body.onoffLine,
+    bootcampName: req.body.bootcampName,
+    bootcampCompany: req.body.bootcampCompany,
+    totalWeeks: req.body.totalWeeks,
+    onoffLine: req.body.onoffLine,
     price: req.body.price,
     position: req.body.position,
     describe: req.body.describe,
   };
   if (
-    !modifiedPost.bootcamp_name ||
-    !modifiedPost.bootcamp_company ||
-    !modifiedPost.total_weeks ||
-    !modifiedPost.on_off_line ||
+    !modifiedPost.bootcampName ||
+    !modifiedPost.bootcampCompany ||
+    !modifiedPost.totalWeeks ||
+    !modifiedPost.price ||
     !modifiedPost.price ||
     !modifiedPost.position ||
     !modifiedPost.describe
@@ -112,7 +121,7 @@ exports.putPost = (req, res) => {
     throw new BadRequestError("데이터 형식에 맞지 않습니다. 다시 입력해 주세요.");
   }
 
-  post.checkMyPost(postId, user_idx, (err, data) => {
+  post.checkMyPost(postId, userIdx, (err, data) => {
     if (data < 1){
       return res.status(StatusCodes.BAD_REQUEST).json({message : "게시된 글이 없습니다."})
     } else if (err){
@@ -132,9 +141,8 @@ exports.putPost = (req, res) => {
 
 exports.deletePost = (req, res) => {
   const postId = req.params.postId;
-  // user_idx 임시 지정
-  const user_idx= 24;
-  post.checkMyPost(postId, user_idx, (err, data) => {
+  const userIdx= res.locals.user.USER_IDX;
+  post.checkMyPost(postId, userIdx, (err, data) => {
     if (data < 1){
       return res.status(StatusCodes.BAD_REQUEST).json({message : "본인이 쓴 글이 아니므로 지울 수 없습니다."})
     } else if (err){
@@ -142,7 +150,7 @@ exports.deletePost = (req, res) => {
     }
     console.log("데이터 갯수 : ",data);
 
-    post.deletePost(postId, user_idx, (err, data) => {
+    post.deletePost(postId, userIdx, (err, data) => {
       if (err){
         return res.status(StatusCodes.BAD_REQUEST).json({message : err.message});
       }
