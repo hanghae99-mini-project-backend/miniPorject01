@@ -1,6 +1,6 @@
 exports.getAllPostQuery = `SELECT * FROM BOOTCAMP_INFO`;
-exports.createPostQuery = 
-            `INSERT INTO 
+exports.createPostQuery =
+  `INSERT INTO 
                 BOOTCAMP_INFO 
             SET 
                 USER_IDX = ?,
@@ -9,12 +9,20 @@ exports.createPostQuery =
                 TOTAL_WEEKS = ?,
                 ON_OFF_LINE = ?,
                 PRICE = ?,
-                `+"`POSITION`"+`=?,
-                `+"`DESCRIBE`"+`=?`;
-exports.getOnePostQuery = `SELECT * FROM BOOTCAMP_INFO WHERE BOOTCAMP_IDX = ?`
-exports.checkMyPostQuery = `SELECT COUNT(*) AS CNT FROM BOOTCAMP_INFO WHERE BOOTCAMP_IDX=? AND USER_IDX=?`
+                ` +
+  "`POSITION`" +
+  `=?,
+                ` +
+  "`DESCRIBE`" +
+  `=?`;
+exports.getOnePostQuery = `SELECT * FROM BOOTCAMP_INFO WHERE BOOTCAMP_IDX = ?`;
+exports.checkMyPostQuery = `SELECT COUNT(*) AS CNT FROM BOOTCAMP_INFO WHERE BOOTCAMP_IDX=? AND USER_IDX=?`;
+exports.createPostQuery = `INSERT INTO BOOTCAMP_INFO SET ?`;
+exports.getOnePostQuery = `SELECT * FROM BOOTCAMP_INFO WHERE BOOTCAMP_IDX = ?`;
+exports.checkMyPostQuery = `SELECT COUNT(*) AS CNT FROM BOOTCAMP_INFO WHERE BOOTCAMP_IDX=? AND USER_IDX=?`;
 exports.putPostQuery = (postId) => {
-    return `UPDATE 
+  return (
+    `UPDATE 
                 BOOTCAMP_INFO 
             SET 
                 BOOTCAMP_NAME=?,
@@ -22,10 +30,14 @@ exports.putPostQuery = (postId) => {
                 TOTAL_WEEKS=?,
                 ON_OFF_LINE=?,
                 PRICE=?,
-                `+"`POSITION`"+`=?,
-                `+"`DESCRIBE`"+`=?
+                ` +
+    "`POSITION`" +
+    `=?,
+                ` +
+    "`DESCRIBE`" +
+    `=?
             WHERE 
-                BOOTCAMP_IDX=${postId}`;
-
-}
-exports.deletePostQuery = `DELETE FROM BOOTCAMP_INFO WHERE BOOTCAMP_IDX=? AND USER_IDX=?`
+                BOOTCAMP_IDX=${postId}`
+  );
+};
+exports.deletePostQuery = `DELETE FROM BOOTCAMP_INFO WHERE BOOTCAMP_IDX=? AND USER_IDX=?`;
