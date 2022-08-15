@@ -16,9 +16,9 @@ const auth = async (req, res, next) => {
         throw new UnauthenticatedError("사용자 인증 오류");
       }
       //req.user = data[0].USER_IDX;
-      res.locals.user=data[0];
+      res.locals.user = data[0].USER_IDX;
+      next();
     });
-    next();
   } catch (error) {
     throw new UnauthenticatedError("사용자 인증 오류");
   }
