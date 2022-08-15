@@ -29,7 +29,9 @@ exports.signup = (req, res) => {
 
   User.checkDuplicatedId(user.id, (error, data) => {
     if (data > 0) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ message: "아이디가 중복됩니다." });
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: "아이디가 중복됩니다." });
     } else if (error) {
       return res.status(500).json({ message: error.message });
     }
@@ -63,8 +65,12 @@ exports.login = (req, res) => {
     }
     const token = User.createJWT(login);
     res.cookie(process.env.COOKIE_NAME, `Bearer ${token}`, {
-      expires: expires,
+      httpOnly: true,
     });
     res.status(StatusCodes.OK).json({ token });
   });
+};
+exports.logout = (req, res) => {
+  res.clearCookie(process.env.COOKIE_NAME);
+  res.status(StatusCodes.OK).json({ msg: "로그아웃 성공" });
 };

@@ -1,6 +1,7 @@
 const Post = require("../models/post");
 const { StatusCodes } = require("http-status-codes");
 const { BadRequestError } = require("../errors");
+const { body } = require("express-validator");
 const post = new Post();
 
 // bootcamp 소개 글 전체 가져오기
@@ -47,7 +48,9 @@ exports.createPost = (req, res) => {
     !newPost.position ||
     !newPost.describe
   ) {
-    throw new BadRequestError("데이터 형식에 맞지 않습니다. 다시 입력해 주세요.");
+    throw new BadRequestError(
+      "데이터 형식에 맞지 않습니다. 다시 입력해 주세요."
+    );
   }
 
   post.createPost(newPost, (err, data) => {
@@ -59,11 +62,11 @@ exports.createPost = (req, res) => {
       return res.status(StatusCodes.OK).json({ data });
     }
   });
-}
+};
 
 exports.detailPost = (req, res) => {
   const postId = req.params.postId;
-  post.getOne(postId, (err,data) => {
+  post.getOne(postId, (err, data) => {
     if (err) {
       res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -76,14 +79,13 @@ exports.detailPost = (req, res) => {
         .json({ message: "글이 없습니다." });
     }
   });
-}
-
+};
 
 // bootcamp 소개글 수정
 // user_idx는 기능 구현 후 수정
 exports.putPost = (req, res) => {
   const postId = req.params.postId;
-  const user_idx= req.body.user_idx;
+  const user_idx = req.body.user_idx;
   const modifiedPost = {
     bootcamp_name: req.body.bootcampName,
     bootcamp_company: req.body.bootcampCompany,
@@ -102,45 +104,53 @@ exports.putPost = (req, res) => {
     !modifiedPost.position ||
     !modifiedPost.describe
   ) {
-    throw new BadRequestError("데이터 형식에 맞지 않습니다. 다시 입력해 주세요.");
+    throw new BadRequestError(
+      "데이터 형식에 맞지 않습니다. 다시 입력해 주세요."
+    );
   }
 
   post.checkMyPost(postId, user_idx, (err, data) => {
-    if (data < 1){
-      return res.status(StatusCodes.BAD_REQUEST).json({message : "게시된 글이 없습니다."})
-    } else if (err){
-      return res.status(500).json({message : err.message});
+    if (data < 1) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: "게시된 글이 없습니다." });
+    } else if (err) {
+      return res.status(500).json({ message: err.message });
     }
-    console.log("데이터 갯수 : ",data);
+    console.log("데이터 갯수 : ", data);
 
     post.putPost(postId, modifiedPost, (err, data) => {
-      if (err){
-        return res.status(StatusCodes.BAD_REQUEST).json({message : err.message});
+      if (err) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ message: err.message });
       }
-      res.status(StatusCodes.OK).json({data});
+      res.status(StatusCodes.OK).json({ data });
     });
   });
-}
-
+};
 
 exports.deletePost = (req, res) => {
   const postId = req.params.postId;
   // user_idx 임시 지정
-  const user_idx= 36;
+  const user_idx = 36;
   post.checkMyPost(postId, user_idx, (err, data) => {
-    if (data < 1){
-      return res.status(StatusCodes.BAD_REQUEST).json({message : "본인이 쓴 글이 아니므로 지울 수 없습니다."})
-    } else if (err){
-      return res.status(500).json({message : err.message});
+    if (data < 1) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: "본인이 쓴 글이 아니므로 지울 수 없습니다." });
+    } else if (err) {
+      return res.status(500).json({ message: err.message });
     }
-    console.log("데이터 갯수 : ",data);
+    console.log("데이터 갯수 : ", data);
 
     post.deletePost(postId, user_idx, (err, data) => {
-      if (err){
-        return res.status(StatusCodes.BAD_REQUEST).json({message : err.message});
+      if (err) {
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ message: err.message });
       }
-      res.status(StatusCodes.OK).json({data});
+      res.status(StatusCodes.OK).json({ data });
     });
-  })
-}
-
+  });
+};
