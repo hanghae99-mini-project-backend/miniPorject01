@@ -25,7 +25,7 @@ exports.createPostPage = (req, res) => {
 // bootcamp 소개글 생성
 exports.createPost = (req, res) => {
   const newPost = {
-    userIdx: res.locals.user,
+    userIdx: res.locals.user.USER_IDX,
     bootcampName: req.body.bootcampName,
     bootcampCompany: req.body.bootcampCompany,
     totalWeeks: req.body.totalWeeks,
