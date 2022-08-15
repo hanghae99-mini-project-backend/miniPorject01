@@ -1,4 +1,22 @@
 exports.getAllPostQuery = `SELECT * FROM BOOTCAMP_INFO`;
+exports.createPostQuery =
+  `INSERT INTO 
+                BOOTCAMP_INFO 
+            SET 
+                USER_IDX = ?,
+                BOOTCAMP_NAME = ?,
+                BOOTCAMP_COMPANY = ?,
+                TOTAL_WEEKS = ?,
+                ON_OFF_LINE = ?,
+                PRICE = ?,
+                ` +
+  "`POSITION`" +
+  `=?,
+                ` +
+  "`DESCRIBE`" +
+  `=?`;
+exports.getOnePostQuery = `SELECT * FROM BOOTCAMP_INFO WHERE BOOTCAMP_IDX = ?`;
+exports.checkMyPostQuery = `SELECT COUNT(*) AS CNT FROM BOOTCAMP_INFO WHERE BOOTCAMP_IDX=? AND USER_IDX=?`;
 exports.createPostQuery = `INSERT INTO BOOTCAMP_INFO SET ?`;
 exports.getOnePostQuery = `SELECT * FROM BOOTCAMP_INFO WHERE BOOTCAMP_IDX = ?`;
 exports.checkMyPostQuery = `SELECT COUNT(*) AS CNT FROM BOOTCAMP_INFO WHERE BOOTCAMP_IDX=? AND USER_IDX=?`;

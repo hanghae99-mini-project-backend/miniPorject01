@@ -12,5 +12,4 @@ router
   .get(Post.detailPost)
   .put(Post.putPost)
   .delete(Post.deletePost);
-
 module.exports = router;
