@@ -14,7 +14,7 @@ exports.mainPage = (req, res) => {
       res.status(StatusCodes.OK).json({ data });
     } else {
       res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .status(StatusCodes.BAD_REQUEST)
         .json({ message: "글이 없습니다." });
     }
   });
