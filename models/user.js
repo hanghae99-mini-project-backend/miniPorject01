@@ -56,13 +56,4 @@ User.createJWT = (newUser) => {
     expiresIn: process.env.JWT_LIFETIME,
   });
 };
-User.findIdxById = async (userId, result) => {
-  const esc_id = sql.escape(userId);
-  await sql.query(sqlQuery.getUserIdx(esc_id), (error, res) => {
-    if (res.length <= 0) {
-      return result(error, null);
-    }
-    return result(null, res);
-  });
-};
 module.exports = User;

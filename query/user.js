@@ -17,12 +17,3 @@ exports.loginQuery = (id) => {
           WHERE
             ID = ${id}`;
 };
-
-exports.getUserIdx = (userId) => {
-  return `SELECT
-            USER_IDX
-          FROM
-            USER
-          WHERE
-            ID = ${userId}`;
-};

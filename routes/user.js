@@ -4,5 +4,4 @@ const User = require("../controller/user");
 
 router.route("/signup").get(User.signupPage).post(User.signup);
 router.route("/login").get(User.loginPage).post(User.login);
-router.route("/logout").post(User.logout);
 module.exports = router;
