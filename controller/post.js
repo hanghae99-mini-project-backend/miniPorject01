@@ -26,7 +26,7 @@ exports.createPostPage = (req, res) => {
 exports.createPost = (req, res) => {
   console.log(res.locals.user)
   const newPost = {
-    userIdx: res.locals.user,
+    userIdx: res.locals.user.USER_IDX,
     bootcampName: req.body.bootcampName,
     bootcampCompany: req.body.bootcampCompany,
     totalWeeks: req.body.totalWeeks,

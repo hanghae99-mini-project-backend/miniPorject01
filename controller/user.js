@@ -64,10 +64,10 @@ exports.login = (req, res) => {
         .json({ msg: "아이디 또는 비밀번호를 확인해주세요." });
     }
     const token = User.createJWT(login);
-    res.cookie(process.env.COOKIE_NAME, `Bearer ${token}`, {
-      httpOnly: true,
-    });
-    res.status(StatusCodes.OK).json({ token });
+    // res.cookie(process.env.COOKIE_NAME, `Bearer ${token}`, {
+    //   httpOnly: true,
+    // });
+    res.status(StatusCodes.OK).send({ token });
   });
 };
 exports.logout = (req, res) => {
