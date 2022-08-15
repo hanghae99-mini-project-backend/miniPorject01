@@ -9,8 +9,8 @@ router
   .post(authenticateUser, Post.createPost);
 router
   .route("/:postId")
-  .get(Post.detailPost)
-  .put(Post.putPost)
-  .delete(Post.deletePost);
+  .get(authenticateUser, Post.detailPost)
+  .put(authenticateUser, Post.putPost)
+  .delete(authenticateUser, Post.deletePost);
 
 module.exports = router;

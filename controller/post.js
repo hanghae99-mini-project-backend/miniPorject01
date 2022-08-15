@@ -92,6 +92,7 @@ exports.detailPost = (req, res) => {
 exports.putPost = (req, res) => {
   const postId = req.params.postId;
   const userIdx = res.locals.user.USER_IDX;
+  console.log("controller의 USER_IDX", res.locals.user.USER_IDX);
   //const modifiedPost = req.body;
   const modifiedPost = {
     bootcampName: req.body.bootcampName,
