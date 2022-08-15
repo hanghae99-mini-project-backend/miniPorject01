@@ -5,7 +5,6 @@ const comment = new Comment();
 
 
 exports.createComment = (req, res) => {
-  console.log('asdfafsfasfsfas');
     const postId = req.params.postId;
     const newComment = {
       bootcamp_idx : postId,

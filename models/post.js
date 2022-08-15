@@ -12,7 +12,8 @@ class Post {
   }
 
   async createPost(newPost, result) {
-    await sql.query(sqlQuery.createPostQuery, newPost, (err, data) => {
+    const newPostArr=Object.entries(newPost).map((element)=>element[1]);
+    await sql.query(sqlQuery.createPostQuery, newPostArr, (err, data) => {
       if (err) {
         return result(err, null);
       }
@@ -41,7 +42,7 @@ class Post {
   }
 
   async putPost(postId, modifiedPost, result){
-    const modifiedPostArr=Object.entries(modifiedPost).map((element)=>element[[1]]);
+    const modifiedPostArr=Object.entries(modifiedPost).map((element)=>element[1]);
     await sql.query(sqlQuery.putPostQuery(postId), modifiedPostArr, (err, data) =>{
       if (err) {
         return result(err, null);
