@@ -6,7 +6,7 @@ const comment = new Comment();
 
 exports.createComment = (req, res) => {
     const postId = req.params.postId;
-    const userIdx = req.locals.user;
+    const userIdx = res.locals.user.USER_IDX;
     const newComment = {
       userIdx: userIdx,
       bootcampIdx : postId,
