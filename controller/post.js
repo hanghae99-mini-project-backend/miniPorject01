@@ -11,7 +11,20 @@ exports.mainPage = (req, res) => {
     if (err) {
       res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
     } else if (data.length) {
-      res.status(StatusCodes.OK).json({ data });
+
+      const totalPostData = data.map((element) => {
+        return ({
+          bootcampId : element.BOOTCAMP_IDX,
+          bootcampName : element.BOOTCAMP_NAME,
+          bootcampCompany : element.BOOTCAMP_COMPANY,
+          totalWeeks : element.TOTAL_WEEKS,
+          onoffLine : element.ON_OFF_LINE,
+          price : element.PRICE,
+          position : element.POSITION,
+          describe : element.DESCRIBE
+        });
+      });
+      res.status(StatusCodes.OK).json({ post : totalPostData });
     } else {
       res.status(StatusCodes.BAD_REQUEST).json({ message: "글이 없습니다." });
     }
