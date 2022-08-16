@@ -101,6 +101,7 @@ exports.detailPost = (req, res) => {
           // API 명세에 맞게 response 데이터 변환
           const resCommentData = commentData.map((element) => {
             return ({
+              commentId : element.COMMENT_IDX,
               bootcampId : element.BOOTCAMP_IDX,
               userIdx : element.USER_IDX,
               userId : element.ID,
