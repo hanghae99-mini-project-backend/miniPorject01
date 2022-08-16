@@ -68,18 +68,41 @@ exports.detailPost = (req, res) => {
     if (err) {
       res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
     } else if (postData.length) {
+      // API 명세에 맞게 response 데이터 변환
+      const resPostData = {
+        bootcampId : postData[0].BOOTCAMP_IDX,
+        userIdx : postData[0].USER_IDX,
+        bootcampName : postData[0].BOOTCAMP_NAME,
+        bootcampCompany : postData[0].BOOTCAMP_COMPANY,
+        totalWeeks : postData[0].TOTAL_WEEKS,
+        onoffLine :postData[0].ON_OFF_LINE,
+        price : postData[0].PRICE,
+        position : postData[0].POSITION,
+        describe : postData[0].DESCRIBE
+      }
       // postId가 있을 경우, postId에 포함된 댓글 모두 가져오기
       comment.getAll(postId, (err, commentData) => {
         if (err) {
           res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
         } else if (commentData.length) {
+          // API 명세에 맞게 response 데이터 변환
+          const resCommentData = commentData.map((element) => {
+            return ({
+              bootcampId : element.BOOTCAMP_IDX,
+              userIdx : element.USER_IDX,
+              userId : element.ID,
+              content :element.CONTENT,
+              rating : element.RATING,
+              createAt : element.CREATED_DATE,
+            });
+          })
           res
             .status(StatusCodes.OK)
-            .json({ post: postData[0], comment: commentData });
+            .json({ post: resPostData, comment: resCommentData });
         } else {
           res
             .status(StatusCodes.OK)
-            .json({ post: postData[0], comment: "댓글이 없습니다." });
+            .json({ post: resPostData, comment: "댓글이 없습니다." });
         }
       });
     } else {
