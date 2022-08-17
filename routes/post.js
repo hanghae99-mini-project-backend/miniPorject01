@@ -9,7 +9,7 @@ router
   .post(authenticateUser, Post.createPost);
 router
   .route("/:postId")
-  .get(authenticateUser, Post.detailPost)
+  .get(Post.detailPost)
   .put(authenticateUser, Post.putPost)
   .delete(authenticateUser, Post.deletePost);
 
