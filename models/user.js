@@ -53,7 +53,7 @@ User.loginAccess = async (newUser, result) => {
   });
 };
 User.createJWT = (newUser) => {
-  return jwt.sign({userIdx: newUser.idx, userId: newUser.id }, process.env.JWT_SECRET, {
+  return jwt.sign({userIdx: newUser[0].USER_IDX, userId: newUser[0].ID }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME,
   });
 };
