@@ -46,13 +46,14 @@ User.loginAccess = async (newUser, result) => {
           if (!data) {
             return result({ msg: "INCORRECT" });
           }
-          return result(null, data);
+
+          return result(null, res);
         });
     }
   });
 };
 User.createJWT = (newUser) => {
-  return jwt.sign({ userId: newUser.id }, process.env.JWT_SECRET, {
+  return jwt.sign({userIdx: newUser.idx, userId: newUser.id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME,
   });
 };

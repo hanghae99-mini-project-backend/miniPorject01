@@ -57,13 +57,15 @@ exports.login = (req, res) => {
   }
 
   const login = new User({ id, password });
+
   User.loginAccess(login, (error, data) => {
     if (error) {
       return res
         .status(StatusCodes.BAD_REQUEST)
         .json({ msg: "아이디 또는 비밀번호를 확인해주세요." });
     }
-    const token = User.createJWT(login);
+    const token = User.createJWT(data);
+    
     // res.cookie(process.env.COOKIE_NAME, `Bearer ${token}`, {
     //   httpOnly: true,
     // });
