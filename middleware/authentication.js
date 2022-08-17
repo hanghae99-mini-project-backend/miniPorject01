@@ -16,13 +16,12 @@ const auth = async (req, res, next) => {
   const token = authHeader.split(" ")[1];
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(payload)
+    console.log("payload 값 : ", payload);
     await User.findIdxById(payload.userId, (err, data) => {
       if (err) {
         throw new UnauthenticatedError("사용자 인증 오류");
       }
       //req.user = data[0].USER_IDX;
-      console.log(data);
       res.locals.user = data[0];
       next();
     });
