@@ -11,5 +11,5 @@ router
   .route("/login")
   .get(loginUserCheck, User.loginPage)
   .post(loginUserCheck, User.login);
-router.route("/logout").post(User.logout);
+//router.route("/logout").post(User.logout);
 module.exports = router;

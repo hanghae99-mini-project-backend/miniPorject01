@@ -26,7 +26,7 @@ exports.mainPage = (req, res) => {
       });
       res.status(StatusCodes.OK).json({ post : totalPostData });
     } else {
-      res.status(StatusCodes.BAD_REQUEST).json({ message: "글이 없습니다." });
+      res.status(StatusCodes.NOT_FOUND).json({ message: "글이 없습니다." });
     }
   });
 };
@@ -120,7 +120,7 @@ exports.detailPost = (req, res) => {
         }
       });
     } else {
-      res.status(StatusCodes.BAD_REQUEST).json({ message: "글이 없습니다." });
+      res.status(StatusCodes.NOT_FOUND).json({ message: "글이 없습니다." });
     }
   });
 };
@@ -157,10 +157,10 @@ exports.putPost = (req, res) => {
   post.checkMyPost(postId, userIdx, (err, data) => {
     if (data < 1) {
       return res
-        .status(StatusCodes.BAD_REQUEST)
+        .status(StatusCodes.NOT_FOUND)
         .json({ message: "게시된 글이 없습니다." });
     } else if (err) {
-      return res.status(500).json({ message: err.message });
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
     }
     console.log("데이터 갯수 : ", data);
 
@@ -184,7 +184,7 @@ exports.deletePost = (req, res) => {
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: "본인이 쓴 글이 아니므로 지울 수 없습니다." });
     } else if (err) {
-      return res.status(500).json({ message: err.message });
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
     }
     console.log("데이터 갯수 : ", data);
 

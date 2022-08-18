@@ -33,7 +33,7 @@ exports.signup = (req, res) => {
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: "아이디가 중복됩니다." });
     } else if (error) {
-      return res.status(500).json({ message: error.message });
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
     }
 
     User.create(user, (error, data) => {
