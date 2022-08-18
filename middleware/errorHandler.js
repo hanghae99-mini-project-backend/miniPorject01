@@ -4,7 +4,7 @@ exports.errorHandlerMiddleware = (err, req, res, next) => {
   let customError = {
     //set default
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
-    msg: err.message || "Something went wrong try again later",
+    message: err.message || "Something went wrong try again later",
   };
   // if (err instanceof CustomApiError) {
   //   return res.status(err.statusCode).json({ msg: err.message });
@@ -12,12 +12,14 @@ exports.errorHandlerMiddleware = (err, req, res, next) => {
 
   if (err.name === "ValidationError") {
     console.log(Object.values(err.errors));
-    customError.msg = Object.values(err.errors)
+    customError.message = Object.values(err.errors)
       .map((item) => item.message)
       .join(" 또는 ");
     customError.statusCode = 400;
   }
   //에러코드를 보는 status
   // return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err });
-  return res.status(customError.statusCode).json({ msg: customError.msg });
+  return res
+    .status(customError.statusCode)
+    .json({ message: customError.message });
 };
