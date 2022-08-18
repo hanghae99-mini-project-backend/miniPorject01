@@ -51,7 +51,7 @@ exports.putComment = (req, res) => {
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: "게시된 댓글이 없습니다." });
     } else if (err) {
-      return res.status(500).json({ message: err.message });
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
     }
     console.log("데이터 갯수 : ", data);
 
@@ -73,10 +73,10 @@ exports.deleteComment = (req, res) => {
   comment.checkMyComment(commentId, postId, userIdx, (err, data) => {
     if (data < 1) {
       return res
-        .status(StatusCodes.BAD_REQUEST)
+        .status(StatusCodes.NOT_FOUND)
         .json({ message: "게시된 댓글이 없습니다." });
     } else if (err) {
-      return res.status(500).json({ message: err.message });
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: err.message });
     }
     console.log("데이터 갯수 : ", data);
 
