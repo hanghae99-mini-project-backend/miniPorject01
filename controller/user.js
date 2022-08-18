@@ -19,10 +19,15 @@ exports.signup = (req, res) => {
   }
 
   if (!reg.test(password)) {
-    throw new BadRequestError("비밀번호 형식이 틀렸습니다.");
+    throw new BadRequestError(
+      "비밀번호 형식이 틀렸습니다. 대소문자 1개이상, 특수문자 1개이상, 숫자1개 이상, 6글자 이상 12글자 이하 입니다. "
+    );
   }
   if (password !== confirmPassword) {
     throw new BadRequestError("비밀번호를 한번 더 확인해주세요.");
+  }
+  if (password.length < 6 || password.length > 12) {
+    throw new BadRequestError("비밀번호는 6글자 이상 12글자 이하 입니다.");
   }
 
   const user = new User({ id, name, password });
